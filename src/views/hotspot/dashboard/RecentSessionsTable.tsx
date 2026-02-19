@@ -15,6 +15,9 @@ import TableRow from '@mui/material/TableRow'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 
+// Component Imports
+import CustomAvatar from '@core/components/mui/Avatar'
+
 // Type Imports
 import type { RosHotspotActive } from '@/libs/mikrotik/hotspot'
 import { formatBytes } from '@/libs/mikrotik/hotspot'
@@ -66,8 +69,10 @@ const RecentSessionsTable = ({ sessions, routerId, onDisconnect }: Props) => {
                 sessions.slice(0, 10).map(session => (
                   <TableRow key={session['.id']}>
                     <TableCell>
-                      <div className='flex items-center gap-2'>
-                        <i className='tabler-user text-lg text-textSecondary' />
+                      <div className='flex items-center gap-3'>
+                        <CustomAvatar skin='light' color='success' size={32}>
+                          {session.user ? session.user.charAt(0).toUpperCase() : '?'}
+                        </CustomAvatar>
                         <Typography className='font-medium' color='text.primary'>
                           {session.user}
                         </Typography>

@@ -20,87 +20,74 @@ import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
 // Vars
 const shortcuts: ShortcutsType[] = [
   {
-    url: '/apps/calendar',
-    icon: 'tabler-calendar',
-    title: 'Calendar',
-    subtitle: 'Appointments'
-  },
-  {
-    url: '/apps/invoice/list',
-    icon: 'tabler-file-dollar',
-    title: 'Invoice App',
-    subtitle: 'Manage Accounts'
-  },
-  {
-    url: '/apps/user/list',
-    icon: 'tabler-user',
-    title: 'Users',
-    subtitle: 'Manage Users'
-  },
-  {
-    url: '/apps/roles',
-    icon: 'tabler-users-group',
-    title: 'Role Management',
-    subtitle: 'Permissions'
-  },
-  {
-    url: '/',
-    icon: 'tabler-device-desktop-analytics',
+    url: '/hotspot',
+    icon: 'tabler-layout-dashboard',
     title: 'Dashboard',
-    subtitle: 'User Dashboard'
+    subtitle: 'Overview & Stats'
   },
   {
-    url: '/pages/account-settings',
-    icon: 'tabler-settings',
-    title: 'Settings',
-    subtitle: 'Account Settings'
+    url: '/hotspot/users',
+    icon: 'tabler-users',
+    title: 'Users',
+    subtitle: 'Manage Hotspot Users'
+  },
+  {
+    url: '/hotspot/sessions',
+    icon: 'tabler-activity',
+    title: 'Active Sessions',
+    subtitle: 'Live Connections'
+  },
+  {
+    url: '/hotspot/profiles',
+    icon: 'tabler-gauge',
+    title: 'Profiles',
+    subtitle: 'Bandwidth Plans'
+  },
+  {
+    url: '/hotspot/vouchers',
+    icon: 'tabler-ticket',
+    title: 'Vouchers',
+    subtitle: 'Generate Codes'
+  },
+  {
+    url: '/hotspot/routers',
+    icon: 'tabler-router',
+    title: 'Routers',
+    subtitle: 'MikroTik Devices'
   }
 ]
 
 const notifications: NotificationsType[] = [
   {
-    avatarImage: '/images/avatars/8.png',
-    title: 'Congratulations Flora 🎉',
-    subtitle: 'Won the monthly bestseller gold badge',
-    time: '1h ago',
+    avatarIcon: 'tabler-wifi',
+    title: 'Hotspot is running',
+    subtitle: 'All routers are online and operational',
+    avatarColor: 'success',
+    time: 'Just now',
     read: false
   },
   {
-    title: 'Cecilia Becker',
-    avatarColor: 'secondary',
-    subtitle: 'Accepted your connection',
-    time: '12h ago',
+    avatarIcon: 'tabler-users',
+    title: 'New users registered',
+    subtitle: 'Multiple new hotspot accounts created today',
+    avatarColor: 'primary',
+    time: '2h ago',
     read: false
   },
   {
-    avatarImage: '/images/avatars/3.png',
-    title: 'Bernard Woods',
-    subtitle: 'You have new message from Bernard Woods',
-    time: 'May 18, 8:26 AM',
+    avatarIcon: 'tabler-ticket',
+    title: 'Vouchers low',
+    subtitle: 'Less than 10 unused vouchers remaining',
+    avatarColor: 'warning',
+    time: '5h ago',
     read: true
   },
   {
     avatarIcon: 'tabler-chart-bar',
-    title: 'Monthly report generated',
-    subtitle: 'July month financial report is generated',
+    title: 'Traffic report ready',
+    subtitle: 'Daily bandwidth usage report is available',
     avatarColor: 'info',
-    time: 'Apr 24, 10:30 AM',
-    read: true
-  },
-  {
-    avatarText: 'MG',
-    title: 'Application has been approved 🚀',
-    subtitle: 'Your Meta Gadgets project application has been approved.',
-    avatarColor: 'success',
-    time: 'Feb 17, 12:17 PM',
-    read: true
-  },
-  {
-    avatarIcon: 'tabler-mail',
-    title: 'New message from Harry',
-    subtitle: 'You have new message from Harry',
-    avatarColor: 'error',
-    time: 'Jan 6, 1:48 PM',
+    time: 'Yesterday',
     read: true
   }
 ]

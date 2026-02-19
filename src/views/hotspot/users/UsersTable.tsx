@@ -52,6 +52,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 }
 
 // Component Imports
+import CustomAvatar from '@core/components/mui/Avatar'
 import CustomTextField from '@core/components/mui/TextField'
 import TablePaginationComponent from '@/components/TablePaginationComponent'
 import AddEditUserDrawer from './AddEditUserDrawer'
@@ -144,15 +145,20 @@ const UsersTable = ({ routerId }: Props) => {
       columnHelper.accessor('username', {
         header: 'User',
         cell: ({ row }) => (
-          <div className='flex flex-col'>
-            <Typography className='font-medium' color='text.primary'>
-              {row.original.username}
-            </Typography>
-            {row.original.comment && (
-              <Typography variant='caption' color='text.disabled'>
-                {row.original.comment}
+          <div className='flex items-center gap-3'>
+            <CustomAvatar skin='light' color='primary' size={34}>
+              {row.original.username.charAt(0).toUpperCase()}
+            </CustomAvatar>
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.username}
               </Typography>
-            )}
+              {row.original.comment && (
+                <Typography variant='caption' color='text.disabled'>
+                  {row.original.comment}
+                </Typography>
+              )}
+            </div>
           </div>
         )
       }),

@@ -3,62 +3,46 @@ import type { SVGAttributes } from 'react'
 
 /**
  * SKYNITY Logo Mark
- * A stylised hotspot / sky-node icon:
- *  - Three concentric arc "signal" rings (hotspot)
- *  - A diamond node at centre
- *  - Subtle diagonal "sky" slash for depth
+ * Professional hotspot network icon:
+ *  - Bold WiFi signal arcs (outer, mid, inner)
+ *  - Solid circular base node
+ *  - Clean geometric style
  */
 const Logo = (props: SVGAttributes<SVGElement>) => {
   return (
     <svg
       width='1em'
       height='1em'
-      viewBox='0 0 24 24'
+      viewBox='0 0 32 32'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       {...props}
     >
-      {/* Outer arc */}
+      {/* Outer signal arc */}
       <path
-        d='M3.515 6.343a12 12 0 0 1 16.97 0'
+        d='M4 12.5C7.2 8.2 11.8 5.5 16 5.5C20.2 5.5 24.8 8.2 28 12.5'
         stroke='currentColor'
-        strokeWidth='2'
+        strokeWidth='2.5'
         strokeLinecap='round'
-        opacity='0.35'
+        opacity='0.3'
       />
-      {/* Middle arc */}
+      {/* Mid signal arc */}
       <path
-        d='M6.343 9.172a8 8 0 0 1 11.314 0'
+        d='M7.5 16C9.8 12.8 12.8 11 16 11C19.2 11 22.2 12.8 24.5 16'
         stroke='currentColor'
-        strokeWidth='2'
+        strokeWidth='2.5'
         strokeLinecap='round'
-        opacity='0.65'
+        opacity='0.6'
       />
-      {/* Inner arc */}
+      {/* Inner signal arc */}
       <path
-        d='M9.172 12a4 4 0 0 1 5.656 0'
+        d='M11 19.5C12.4 17.5 14.1 16.5 16 16.5C17.9 16.5 19.6 17.5 21 19.5'
         stroke='currentColor'
-        strokeWidth='2'
+        strokeWidth='2.5'
         strokeLinecap='round'
       />
-      {/* Centre node (diamond) */}
-      <rect
-        x='10.5'
-        y='13.5'
-        width='3'
-        height='3'
-        rx='0.5'
-        transform='rotate(45 12 15)'
-        fill='currentColor'
-      />
-      {/* Sky slash accent */}
-      <path
-        d='M18 18 L21 21'
-        stroke='currentColor'
-        strokeWidth='1.5'
-        strokeLinecap='round'
-        opacity='0.4'
-      />
+      {/* Center node */}
+      <circle cx='16' cy='23' r='2.5' fill='currentColor' />
     </svg>
   )
 }

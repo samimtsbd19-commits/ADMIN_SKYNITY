@@ -26,6 +26,9 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Link from 'next/link'
 
+// Component Imports
+import CustomAvatar from '@core/components/mui/Avatar'
+
 // Type Imports
 import type { RosHotspotActive } from '@/libs/mikrotik/hotspot'
 import { formatBytes } from '@/libs/mikrotik/hotspot'
@@ -166,8 +169,10 @@ const SessionsPageClient = () => {
                 sessions.map(s => (
                   <TableRow key={s['.id']}>
                     <TableCell>
-                      <div className='flex items-center gap-2'>
-                        <i className='tabler-user text-textSecondary' />
+                      <div className='flex items-center gap-3'>
+                        <CustomAvatar skin='light' color='success' size={32}>
+                          {s.user ? s.user.charAt(0).toUpperCase() : '?'}
+                        </CustomAvatar>
                         <Typography className='font-medium' color='text.primary'>
                           {s.user}
                         </Typography>

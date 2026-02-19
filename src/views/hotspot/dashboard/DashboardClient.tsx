@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography'
 import CardStatVertical from '@/components/card-statistics/Vertical'
 
 // View Imports
+import WelcomeBanner from './WelcomeBanner'
 import OnlineUsersSparkCard from './OnlineUsersSparkCard'
 import TrafficSparkCard from './TrafficSparkCard'
 import BandwidthChart from './BandwidthChart'
@@ -110,6 +111,11 @@ const DashboardClient = () => {
 
   return (
     <Grid container spacing={6}>
+
+      {/* ── Welcome Banner ── */}
+      <Grid size={{ xs: 12 }}>
+        <WelcomeBanner />
+      </Grid>
 
       {/* ── Row 1: Page header ── */}
       <Grid size={{ xs: 12 }}>
