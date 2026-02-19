@@ -8,18 +8,19 @@ import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Button from '@mui/material/Button'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
+import Typography from '@mui/material/Typography'
+
+// Component Imports
+import CardStatVertical from '@/components/card-statistics/Vertical'
 
 // View Imports
-import StatsCards from './StatsCards'
+import OnlineUsersSparkCard from './OnlineUsersSparkCard'
+import TrafficSparkCard from './TrafficSparkCard'
 import BandwidthChart from './BandwidthChart'
 import UsersByProfileChart from './UsersByProfileChart'
 import RecentSessionsTable from './RecentSessionsTable'
+import RouterStatusCard from './RouterStatusCard'
 
 // Link Import
 import Link from 'next/link'
@@ -89,12 +90,12 @@ const DashboardClient = () => {
     return () => clearInterval(interval)
   }, [selectedRouter])
 
-  if (routers.length === 0) {
+  if (routers.length === 0 && !loading) {
     return (
       <Alert
         severity='info'
         action={
-          <Button component={Link} href='/hotspot/routers' size='small' variant='outlined' color='info'>
+          <Button component={Link} href='/en/hotspot/routers' size='small' variant='outlined' color='info'>
             Add Router
           </Button>
         }
@@ -109,7 +110,8 @@ const DashboardClient = () => {
 
   return (
     <Grid container spacing={6}>
-      {/* Router Selector */}
+
+      {/* ── Row 1: Page header ── */}
       <Grid size={{ xs: 12 }}>
         <div className='flex items-center justify-between flex-wrap gap-4'>
           <div>
@@ -120,25 +122,12 @@ const DashboardClient = () => {
           </div>
           <div className='flex items-center gap-3'>
             {loading && <CircularProgress size={20} />}
-            <FormControl size='small' sx={{ minWidth: 200 }}>
-              <InputLabel>Router</InputLabel>
-              <Select
-                label='Router'
-                value={selectedRouter}
-                onChange={e => setSelectedRouter(e.target.value)}
-              >
-                {routers.map(r => (
-                  <MenuItem key={r.id} value={r.id}>
-                    {r.name} — {r.host}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <Button
               variant='outlined'
               size='small'
               startIcon={<i className='tabler-refresh text-lg' />}
               onClick={() => loadDashboardData(selectedRouter)}
+              disabled={!selectedRouter}
             >
               Refresh
             </Button>
@@ -146,35 +135,70 @@ const DashboardClient = () => {
         </div>
       </Grid>
 
-      {/* Stats Cards */}
-      {stats && (
-        <StatsCards
-          totalUsers={stats.totalUsers}
-          onlineUsers={stats.onlineUsers}
-          activeVouchers={stats.activeVouchers}
-          totalDownload={stats.totalDownload}
-          totalUpload={stats.totalUpload}
+      {/* ── Row 2: Mini sparkline stat cards ── */}
+      <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <OnlineUsersSparkCard count={stats?.onlineUsers ?? 0} />
+      </Grid>
+      <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <TrafficSparkCard
+          totalBytes={(stats?.totalDownload ?? 0) + (stats?.totalUpload ?? 0)}
+          download={stats?.totalDownload ?? 0}
+          upload={stats?.totalUpload ?? 0}
         />
-      )}
+      </Grid>
+      <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <CardStatVertical
+          title='Total Users'
+          subtitle='Registered accounts'
+          stats={String(stats?.totalUsers ?? 0)}
+          avatarColor='primary'
+          avatarIcon='tabler-users'
+          avatarSkin='light'
+          avatarSize={44}
+          chipText='All time'
+          chipColor='primary'
+          chipVariant='tonal'
+        />
+      </Grid>
+      <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
+        <CardStatVertical
+          title='Active Vouchers'
+          subtitle='Unused codes'
+          stats={String(stats?.activeVouchers ?? 0)}
+          avatarColor='warning'
+          avatarIcon='tabler-ticket'
+          avatarSkin='light'
+          avatarSize={44}
+          chipText='Available'
+          chipColor='warning'
+          chipVariant='tonal'
+        />
+      </Grid>
 
-      {/* Bandwidth Chart */}
+      {/* ── Row 3: Traffic chart + Profile donut ── */}
       <Grid size={{ xs: 12, lg: 8 }}>
         <BandwidthChart />
       </Grid>
-
-      {/* Users by Profile Chart */}
-      <Grid size={{ xs: 12, lg: 4 }}>
+      <Grid size={{ xs: 12, md: 6, lg: 4 }}>
         <UsersByProfileChart profiles={profileChartData} />
       </Grid>
 
-      {/* Active Sessions Table */}
-      <Grid size={{ xs: 12 }}>
+      {/* ── Row 4: Active sessions + Router status ── */}
+      <Grid size={{ xs: 12, md: 6 }}>
         <RecentSessionsTable
           sessions={sessions}
           routerId={selectedRouter}
           onDisconnect={id => setSessions(prev => prev.filter((s: any) => s['.id'] !== id))}
         />
       </Grid>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <RouterStatusCard
+          routers={routers}
+          selectedRouter={selectedRouter}
+          onSelect={id => setSelectedRouter(id)}
+        />
+      </Grid>
+
     </Grid>
   )
 }
