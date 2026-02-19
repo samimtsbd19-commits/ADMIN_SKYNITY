@@ -51,6 +51,64 @@ const verticalMenuData = (_dictionary: Awaited<ReturnType<typeof getDictionary>>
         href: '/hotspot/routers'
       }
     ]
+  },
+  {
+    label: 'Billing',
+    isSection: true,
+    children: [
+      {
+        label: 'Customers',
+        icon: 'tabler-users-group',
+        href: '/hotspot/customers'
+      },
+      {
+        label: 'Plans',
+        icon: 'tabler-package',
+        href: '/hotspot/plans'
+      },
+      {
+        label: 'Transactions',
+        icon: 'tabler-credit-card',
+        href: '/hotspot/transactions'
+      }
+    ]
+  },
+  {
+    label: 'Analytics',
+    isSection: true,
+    children: [
+      {
+        label: 'Reports',
+        icon: 'tabler-chart-bar',
+        href: '/hotspot/reports'
+      },
+      {
+        label: 'System Logs',
+        icon: 'tabler-clipboard-list',
+        href: '/hotspot/logs'
+      }
+    ]
+  },
+  {
+    label: 'Settings',
+    isSection: true,
+    children: [
+      {
+        label: 'Admin Users',
+        icon: 'tabler-shield-check',
+        href: '/hotspot/admin-users'
+      },
+      {
+        label: 'IP Pools',
+        icon: 'tabler-network',
+        href: '/hotspot/pools'
+      },
+      {
+        label: 'System Settings',
+        icon: 'tabler-settings',
+        href: '/hotspot/settings'
+      }
+    ]
   }
 ]
 

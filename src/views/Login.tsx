@@ -141,9 +141,7 @@ const Login = ({ mode }: { mode: SystemMode }) => {
       router.replace(getLocalizedUrl(redirectURL, locale as Locale))
     } else {
       if (res?.error) {
-        const error = JSON.parse(res.error)
-
-        setErrorState(error)
+        setErrorState({ message: ['Invalid email or password'] })
       }
     }
   }
