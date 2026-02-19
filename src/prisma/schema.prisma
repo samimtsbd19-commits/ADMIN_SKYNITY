@@ -1,0 +1,138 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-1.1.x", "rhel-openssl-3.0.x"]
+}
+
+// ─── NextAuth Models ──────────────────────────────────────────────────────────
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Hotspot Manager Models ───────────────────────────────────────────────────
+
+model HotspotRouter {
+  id        String   @id @default(cuid())
+  name      String
+  host      String
+  port      Int      @default(8728)
+  username  String
+  password  String
+  useHttps  Boolean  @default(false)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users    HotspotUser[]
+  profiles HotspotProfile[]
+  vouchers HotspotVoucher[]
+
+  @@map("hotspot_routers")
+}
+
+model HotspotProfile {
+  id             String  @id @default(cuid())
+  routerId       String
+  mikrotikId     String? // .id from RouterOS
+  name           String
+  rateLimit      String  @default("0/0") // e.g. "2M/2M"
+  sharedUsers    Int     @default(1)
+  sessionTimeout String?
+  idleTimeout    String?
+  addressPool    String?
+
+  router   HotspotRouter  @relation(fields: [routerId], references: [id], onDelete: Cascade)
+  users    HotspotUser[]
+  vouchers HotspotVoucher[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([routerId, name])
+  @@map("hotspot_profiles")
+}
+
+model HotspotUser {
+  id          String   @id @default(cuid())
+  routerId    String
+  profileId   String?
+  mikrotikId  String?  // .id from RouterOS
+  username    String
+  password    String
+  macAddress  String?
+  ipAddress   String?
+  limitUptime String?
+  limitBytes  BigInt?
+  comment     String?
+  disabled    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  router  HotspotRouter   @relation(fields: [routerId], references: [id], onDelete: Cascade)
+  profile HotspotProfile? @relation(fields: [profileId], references: [id], onDelete: SetNull)
+
+  @@unique([routerId, username])
+  @@map("hotspot_users")
+}
+
+model HotspotVoucher {
+  id        String    @id @default(cuid())
+  routerId  String
+  profileId String
+  code      String    @unique
+  usedBy    String?
+  usedAt    DateTime?
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+
+  router  HotspotRouter  @relation(fields: [routerId], references: [id], onDelete: Cascade)
+  profile HotspotProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("hotspot_vouchers")
+}
